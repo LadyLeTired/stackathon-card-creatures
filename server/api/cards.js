@@ -8,6 +8,7 @@ router.get("/", async (req, res, next) => {
     const allCards = await Card.findAll({});
     res.json(allCards);
   } catch (err) {
+    console.log("ERROR FETCHING");
     next(err);
   }
 });

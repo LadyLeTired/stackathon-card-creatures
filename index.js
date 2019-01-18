@@ -5,7 +5,8 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const db = require("./server/db");
 
 const sessionStore = new SequelizeStore({ db });
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 const app = express();
 const morgan = require("morgan");
 

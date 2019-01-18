@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { ActionCreators } from "../actions";
+import { addCard, fetchAllCards } from "../reducers/";
 
 import SingleCard from "../components/SingleCard";
 
@@ -26,15 +25,16 @@ const styles = StyleSheet.create({
 });
 
 class CardCreatures extends Component {
+  componentDidMount() {
+    this.props.fetchAllCards();
+  }
   addCard() {
     this.props.addCard();
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.bodyText}>
-          Total Cards Right Now -- {this.props.cardCount}
-        </Text>
+        <Text style={styles.bodyText}>Total: {this.props.cardCount}</Text>
         <TouchableHighlight onPress={() => this.addCard()}>
           <Text style={styles.button}>Increment Card Count</Text>
         </TouchableHighlight>
@@ -44,12 +44,16 @@ class CardCreatures extends Component {
   }
 }
 
-const mapDispatch = dispatch => {
-  return bindActionCreators(ActionCreators, dispatch);
-};
+const mapDispatch = dispatch => ({
+  // return bindActionCreators(ActionCreators, dispatch);
+  fetchAllCards: () => dispatch(fetchAllCards()),
+
+  addCard: () => dispatch(addCard())
+});
 
 const mapState = state => ({
-  cardCount: state.cardReducer
+  cardCount: state.cardReducer.cardCount,
+  allCards: state.cardReducer.allCards
 });
 
 export default connect(

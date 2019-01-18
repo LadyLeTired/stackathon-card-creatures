@@ -1,5 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { connect } from "react-redux";
+
+import { fetchAllCards } from "../reducers";
 
 const testCreature = {
   creatureImageUrl:
@@ -11,16 +14,6 @@ const testCreature = {
   description: "Some description"
 };
 
-export default class SingleCard extends React.Component {
-  render() {
-    return (
-      <View>
-        <Text>{testCreature.creatureName}</Text>
-        <Text>{testCreature.creatureType}</Text>
-      </View>
-    );
-  }
-}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -29,3 +22,34 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+class SingleCard extends React.Component {
+  // componentDidMount() {
+  //   this.props.fetchAllCards();
+  // }
+  render() {
+    console.log("PROPS INSIDE SINGLECARD--->", this.props);
+
+    if (this.props.allCards.length === 0) {
+      return <Text>Nothing...</Text>;
+    }
+    return (
+      <View>
+        <Text>{this.props.allCards[0].creatureName}...</Text>
+        <Text>SOMETHING.</Text>
+      </View>
+    );
+  }
+}
+
+const mapState = state => ({
+  allCards: state.cardReducer.allCards
+});
+const mapDispatch = dispatch => ({
+  fetchAllCards: () => dispatch(fetchAllCards())
+});
+
+export default connect(
+  mapState,
+  mapDispatch
+)(SingleCard);

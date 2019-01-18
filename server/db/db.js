@@ -6,6 +6,8 @@ const databaseName =
 
 const db = new Sequelize(
   process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
+  // process.env.DATABASE_URL ||
+  // `postgres://172.16.25.207:5432/${databaseName}`,
   {
     logging: false
   }
