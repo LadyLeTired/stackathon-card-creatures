@@ -12,6 +12,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  container2: {
+    flex: 1,
+    backgroundColor: "maroon",
+    alignItems: "center",
+    justifyContent: "center"
+  },
   bodyText: {
     fontSize: 30
   },
@@ -32,11 +38,15 @@ class CardCreatures extends Component {
     this.props.addCard();
   }
   render() {
+    const { navigator } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.bodyText}>Total: {this.props.cardCount}</Text>
         <TouchableHighlight onPress={() => this.addCard()}>
-          <Text style={styles.button}>Increment Card Count</Text>
+          <Text style={styles.button}>Increment Card Count!!</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => navigator.push("Test")}>
+          <Text style={styles.button}>Go to next screen</Text>
         </TouchableHighlight>
         <SingleCard />
       </View>
