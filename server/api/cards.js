@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Card } = require("../db/models/Card");
+const { Card } = require("../db/models");
 module.exports = router;
 
 //GET /api/cards
