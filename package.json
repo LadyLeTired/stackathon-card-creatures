@@ -1,0 +1,38 @@
+{
+  "name": "stackathon",
+  "main": "node_modules/expo/AppEntry.js",
+  "engines": {
+    "node": ">= 7.0.0"
+  },
+  "scripts": {
+    "start": "expo start",
+    "start-server": "nodemon index.js",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject",
+    "seed": "node script/seed.js",
+    "build-client": "webpack",
+    "build-client-watch": "webpack -w",
+    "start-node-server": "node server",
+    "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server"
+  },
+  "dependencies": {
+    "connect-session-sequelize": "^6.0.0",
+    "expo": "^32.0.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "react": "16.5.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "sequelize": "^4.42.0"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^5.0.0"
+  },
+  "private": true
+}
