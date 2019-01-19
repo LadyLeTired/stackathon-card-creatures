@@ -60,15 +60,22 @@ export class Navigator extends Component {
   };
 
   handlePop = () => {
-    this.setState(state => {
-      const { stack } = state;
-      if (stack.length > 1) {
-        return {
-          stack: stack.slice(0, stack.length - 1)
-        };
-      }
+    Animated.timing(this._animatedValue, {
+      toValue: width,
+      duration: 250,
+      useNativeDriver: true
+    }).start(() => {
+      this._animatedValue.setValue(0);
+      this.setState(state => {
+        const { stack } = state;
+        if (stack.length > 1) {
+          return {
+            stack: stack.slice(0, stack.length - 1)
+          };
+        }
 
-      return state;
+        return state;
+      });
     });
   };
 
@@ -79,12 +86,23 @@ export class Navigator extends Component {
       <View style={styles.container}>
         {this.state.stack.map((scene, index) => {
           const CurrentScene = scene.component;
+          const sceneStyles = [styles.scene];
+
+          if (index === this.state.stack.length - 1 && index > 0) {
+            sceneStyles.push({
+              transform: [
+                {
+                  translateX: this._animatedValue
+                }
+              ]
+            });
+          }
           return (
-            <View key={scene.key} style={styles.scene}>
+            <Animated.View key={scene.key} style={sceneStyles}>
               <CurrentScene
                 navigator={{ push: this.handlePush, pop: this.handlePop }}
               />
-            </View>
+            </Animated.View>
           );
         })}
       </View>

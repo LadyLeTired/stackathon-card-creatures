@@ -1,8 +1,10 @@
 import axios from "axios";
+const currentIp = "192.168.1.7";
 
 //action types
 export const ADD_CARD = "ADD_CARD";
 export const GET_ALL_CARDS = "GET_ALL_CARDS";
+export const GET_SINGLE_CARD = "GET_SINGLE_CARD";
 
 //action creators
 export const addCard = () => ({
@@ -13,18 +15,31 @@ export const getCards = cards => ({
   type: GET_ALL_CARDS,
   payload: cards
 });
+export const getSingleCard = card => ({
+  type: GET_SINGLE_CARD,
+  payload: card
+});
 
 //thunks
 export const fetchAllCards = () => {
   return async dispatch => {
-    const { data } = await axios.get("http://172.16.25.207:3000/api/cards");
+    const { data } = await axios.get(`http://${currentIp}:3000/api/cards`);
+    dispatch(getCards(data));
+  };
+};
+export const fetchSingleCard = id => {
+  return async dispatch => {
+    const { data } = await axios.get(
+      `http://${currentIp}:3000/api/cards/${id}`
+    );
     dispatch(getCards(data));
   };
 };
 
 let initState = {
   cardCount: 0,
-  allCards: []
+  allCards: [],
+  currentCard: {}
 };
 
 function cardReducer(state = initState, action) {
@@ -35,6 +50,9 @@ function cardReducer(state = initState, action) {
       return newState;
     case ADD_CARD:
       newState.cardCount++;
+      return newState;
+    case GET_SINGLE_CARD:
+      newState.currentCard = action.payload;
       return newState;
     default:
       return state;

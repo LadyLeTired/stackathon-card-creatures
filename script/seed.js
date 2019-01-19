@@ -3,21 +3,99 @@
 const db = require("../server/db");
 const { Card } = require("../server/db/models");
 
+const cards = [
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature1",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature2",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature3",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature4",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature5",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature6",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature7",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature8",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    creatureImageUrl:
+      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
+    creatureName: "Test Creature9",
+    creatureType: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  }
+];
+
 async function seed() {
   await db.sync({ force: true });
   console.log("db synced!");
 
-  const cards = await Promise.all([
-    Card.create({
-      creatureImageUrl:
-        "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-      creatureName: "Test Creature",
-      creatureType: "Ice",
-      hp: 10,
-      mp: 10,
-      description: "Some description"
+  await Promise.all(
+    cards.map(card => {
+      return Card.create(card);
     })
-  ]);
+  );
 
   console.log(`seeded ${cards.length} cards`);
   console.log(`seeded successfully`);

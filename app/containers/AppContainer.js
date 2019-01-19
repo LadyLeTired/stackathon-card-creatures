@@ -3,8 +3,6 @@ import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { connect } from "react-redux";
 import { addCard, fetchAllCards } from "../reducers/";
 
-import SingleCard from "../components/SingleCard";
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -19,7 +17,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   bodyText: {
-    fontSize: 30
+    fontSize: 30,
+    fontFamily: "Raleway-Black"
   },
   button: {
     backgroundColor: "lightblue",
@@ -34,6 +33,7 @@ class CardCreatures extends Component {
   componentDidMount() {
     this.props.fetchAllCards();
   }
+
   addCard() {
     this.props.addCard();
   }
@@ -41,14 +41,10 @@ class CardCreatures extends Component {
     const { navigator } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.bodyText}>Total: {this.props.cardCount}</Text>
-        <TouchableHighlight onPress={() => this.addCard()}>
-          <Text style={styles.button}>Increment Card Count!!</Text>
+        <Text style={styles.bodyText}>Card Creatures!</Text>
+        <TouchableHighlight onPress={() => navigator.push("Choices")}>
+          <Text style={styles.button}>Start Game</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={() => navigator.push("Test")}>
-          <Text style={styles.button}>Go to next screen</Text>
-        </TouchableHighlight>
-        <SingleCard />
       </View>
     );
   }

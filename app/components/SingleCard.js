@@ -1,8 +1,9 @@
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 
-import { fetchAllCards } from "../reducers";
+// import CardDetails from "./CardDetails";
+// import { fetchSingleCard } from "../reducers";
 
 const styles = StyleSheet.create({
   container: {
@@ -10,33 +11,83 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
+  },
+  card: {
+    // flex: 1,
+    padding: 10,
+    margin: 5,
+    height: 200,
+    width: 150,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  cardFontStats: {
+    color: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 13
+  },
+  cardFontName: {
+    color: "black",
+    fontSize: 20,
+    fontWeight: "bold",
+    fontFamily: "Qing-Regular",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center"
+  },
+  cardPic: {
+    flex: 1,
+    height: 75,
+    width: 75,
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 
 class SingleCard extends React.Component {
-  componentDidMount() {
-    this.props.fetchAllCards();
+  constructor(props) {
+    super(props);
+    // this.handlePress = this.handlePress.bind(this);
   }
+  // async handlePress(card) {
+  //   // const { navigator } = this.props;
+  //   console.log("Card was selected---->", card.id);
+  //   await this.props.fetchSingleCard(card.id);
+  //   // navigator.push("Card Details");
+  // }
   render() {
-    console.log("PROPS INSIDE SINGLECARD--->", this.props);
+    const { card } = this.props;
 
-    if (this.props.allCards.length === 0) {
-      return <Text>Nothing...</Text>;
-    }
     return (
-      <View>
-        <Text>{this.props.allCards[0].creatureName}...</Text>
-        <Text>SOMETHING.</Text>
+      // <TouchableOpacity
+      //   onPress={() => {
+      //     this.handlePress(card);
+      //   }}
+      // >
+      <View style={styles.card}>
+        <Image
+          source={{ uri: `${card.creatureImageUrl}` }}
+          style={styles.cardPic}
+        />
+        <Text style={styles.cardFontStats}>
+          HP: {card.hp} || MP: {card.mp}
+        </Text>
+        <Text style={styles.cardFontName}>{card.creatureName}</Text>
       </View>
+      // </TouchableOpacity>
     );
   }
 }
 
 const mapState = state => ({
-  allCards: state.cardReducer.allCards
+  allCards: state.cardReducer.allCards,
+  currentCard: state.cardReducer.currentCard
 });
 const mapDispatch = dispatch => ({
-  fetchAllCards: () => dispatch(fetchAllCards())
+  fetchAllCards: () => dispatch(fetchAllCards()),
+  fetchSingleCard: id => dispatch(fetchSingleCard(id))
 });
 
 export default connect(
