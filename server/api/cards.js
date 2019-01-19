@@ -15,9 +15,7 @@ router.get("/", async (req, res, next) => {
 //GET /api/cards/:id
 router.get("/:id", async (req, res, next) => {
   try {
-    const selectedCard = await Card.findAll({
-      where: { id: req.params.id }
-    });
+    const selectedCard = await Card.findById(req.params.id);
     res.json(selectedCard);
   } catch (err) {
     next(err);

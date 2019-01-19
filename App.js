@@ -6,6 +6,8 @@ import store from "./app/reducers";
 import { Navigator, Route } from "./Navigation";
 import { Font } from "expo";
 import { View, StyleSheet, Image } from "react-native";
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings(["Remote debugger"]);
 
 const styles = StyleSheet.create({
   container: {
@@ -31,14 +33,13 @@ export default class App extends React.Component {
       "Qing-Regular": require("./assets/fonts/ZCOOL_QingKe_HuangYou/ZCOOLQingKeHuangYou-Regular.ttf")
     });
     this.setState({ fontLoaded: true });
-    console.log("Font loaded");
   }
   render() {
     if (this.state.fontLoaded) {
       return (
         <Provider store={store}>
           <Navigator>
-            <Route name="Home" component={AllCards} />
+            <Route name="Home" component={AppContainer} />
             <Route name="Choices" component={Choices} />
             <Route name="Your Cards" component={AllCards} />
             <Route name="Card Details" component={CardDetails} />

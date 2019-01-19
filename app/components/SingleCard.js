@@ -2,9 +2,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { connect } from "react-redux";
 
-// import CardDetails from "./CardDetails";
-// import { fetchSingleCard } from "../reducers";
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -47,25 +44,10 @@ const styles = StyleSheet.create({
 });
 
 class SingleCard extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.handlePress = this.handlePress.bind(this);
-  }
-  // async handlePress(card) {
-  //   // const { navigator } = this.props;
-  //   console.log("Card was selected---->", card.id);
-  //   await this.props.fetchSingleCard(card.id);
-  //   // navigator.push("Card Details");
-  // }
   render() {
     const { card } = this.props;
 
     return (
-      // <TouchableOpacity
-      //   onPress={() => {
-      //     this.handlePress(card);
-      //   }}
-      // >
       <View style={styles.card}>
         <Image
           source={{ uri: `${card.creatureImageUrl}` }}
@@ -76,7 +58,6 @@ class SingleCard extends React.Component {
         </Text>
         <Text style={styles.cardFontName}>{card.creatureName}</Text>
       </View>
-      // </TouchableOpacity>
     );
   }
 }

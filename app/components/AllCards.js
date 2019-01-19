@@ -5,7 +5,8 @@ import {
   View,
   Dimensions,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  Button
 } from "react-native";
 import { connect } from "react-redux";
 import SingleCard from "./SingleCard";
@@ -36,10 +37,9 @@ class AllCards extends React.Component {
     this.props.fetchAllCards();
   }
   async handlePress(card) {
-    // const { navigator } = this.props;
-    console.log("Card was selected---->", card.id);
-    // await this.props.fetchSingleCard(card.id);
-    // navigator.push("Card Details");
+    const { navigator } = this.props;
+    await this.props.fetchSingleCard(card.id);
+    navigator.push("Card Details");
   }
   renderHeader = () => {
     return <Text style={styles.bodyText}>Your Cards</Text>;
@@ -54,8 +54,9 @@ class AllCards extends React.Component {
     </TouchableOpacity>
   );
   render() {
+    const { navigator } = this.props;
     if (this.props.allCards.length === 0) {
-      return <Text>Nothing...</Text>;
+      return <Text>Nothing..</Text>;
     }
     return (
       <View style={styles.container}>
@@ -66,6 +67,7 @@ class AllCards extends React.Component {
           keyExtractor={item => item.creatureName}
           ListHeaderComponent={this.renderHeader}
         />
+        <Button onPress={() => navigator.pop()} title="Back" color="#EF7126" />
       </View>
     );
   }

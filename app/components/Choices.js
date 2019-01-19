@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -32,12 +32,12 @@ export default class Choices extends Component {
     const { navigator } = this.props;
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={() => navigator.push("Your Cards")}>
+        <TouchableOpacity onPress={() => navigator.push("Your Cards")}>
           <Text style={styles.button}>Your Cards</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => navigator.pop()}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigator.pop()}>
           <Text style={styles.button}>Play Game</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

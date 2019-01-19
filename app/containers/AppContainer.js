@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { addCard, fetchAllCards } from "../reducers/";
 
@@ -21,11 +21,13 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-Black"
   },
   button: {
-    backgroundColor: "lightblue",
-    color: "white",
+    backgroundColor: "#EF7126",
+    color: "black",
     fontSize: 20,
     fontWeight: "bold",
-    padding: 20
+    padding: 15,
+    margin: 10,
+    borderTopRightRadius: 20
   }
 });
 
@@ -42,9 +44,9 @@ class CardCreatures extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.bodyText}>Card Creatures!</Text>
-        <TouchableHighlight onPress={() => navigator.push("Choices")}>
+        <TouchableOpacity onPress={() => navigator.push("Choices")}>
           <Text style={styles.button}>Start Game</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

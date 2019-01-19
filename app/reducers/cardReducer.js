@@ -32,7 +32,7 @@ export const fetchSingleCard = id => {
     const { data } = await axios.get(
       `http://${currentIp}:3000/api/cards/${id}`
     );
-    dispatch(getCards(data));
+    dispatch(getSingleCard(data));
   };
 };
 
@@ -52,8 +52,9 @@ function cardReducer(state = initState, action) {
       newState.cardCount++;
       return newState;
     case GET_SINGLE_CARD:
-      newState.currentCard = action.payload;
-      return newState;
+      // newState.currentCard = action.payload;
+      // return newState;
+      return { ...state, currentCard: action.payload };
     default:
       return state;
   }
