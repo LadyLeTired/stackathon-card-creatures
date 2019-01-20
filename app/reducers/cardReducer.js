@@ -22,18 +22,26 @@ export const getSingleCard = card => ({
 
 //thunks
 export const fetchAllCards = () => {
-  return async dispatch => {
-    const { data } = await axios.get(`http://${currentIp}:3000/api/cards`);
-    dispatch(getCards(data));
-  };
+  try {
+    return async dispatch => {
+      const { data } = await axios.get(`http://${currentIp}:3000/api/cards`);
+      dispatch(getCards(data));
+    };
+  } catch (err) {
+    console.error(err);
+  }
 };
 export const fetchSingleCard = id => {
-  return async dispatch => {
-    const { data } = await axios.get(
-      `http://${currentIp}:3000/api/cards/${id}`
-    );
-    dispatch(getSingleCard(data));
-  };
+  try {
+    return async dispatch => {
+      const { data } = await axios.get(
+        `http://${currentIp}:3000/api/cards/${id}`
+      );
+      dispatch(getSingleCard(data));
+    };
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 let initState = {

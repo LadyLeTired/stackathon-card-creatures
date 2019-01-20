@@ -1,11 +1,12 @@
 import React from "react";
 import { Provider } from "react-redux";
 import AppContainer from "./app/containers/AppContainer";
-import { Choices, AllCards, CardDetails } from "./app/components";
+import { Choices, AllCards, CardDetails, Play } from "./app/components";
 import store from "./app/reducers";
 import { Navigator, Route } from "./Navigation";
 import { Font } from "expo";
 import { View, StyleSheet, Image } from "react-native";
+
 import { YellowBox } from "react-native";
 YellowBox.ignoreWarnings(["Remote debugger"]);
 
@@ -39,10 +40,12 @@ export default class App extends React.Component {
       return (
         <Provider store={store}>
           <Navigator>
-            <Route name="Home" component={AppContainer} />
+            {/* <Route name="Home" component={AppContainer} /> */}
+            <Route name="Home" component={Play} />
             <Route name="Choices" component={Choices} />
             <Route name="Your Cards" component={AllCards} />
             <Route name="Card Details" component={CardDetails} />
+            <Route name="Play" component={Play} />
           </Navigator>
         </Provider>
       );

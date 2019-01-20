@@ -51,8 +51,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    width: Dimensions.get("window").width - 20,
+    width: Dimensions.get("window").width - 40,
     margin: 20
+  },
+  cardAttacks: {
+    color: "black",
+    fontSize: 24,
+    fontWeight: "bold",
+    fontFamily: "Qing-Regular",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center"
+  },
+  attacksView: {
+    borderStyle: "dotted",
+    borderColor: "teal",
+    alignItems: "center",
+    borderWidth: 5,
+    width: Dimensions.get("window").width - 20,
+    margin: 10,
+    padding: 10
   }
 });
 
@@ -73,6 +91,19 @@ class CardDetails extends React.Component {
             <Text style={styles.cardFontDescrip}>
               HP: {currentCard.hp} || MP: {currentCard.mp}
             </Text>
+            <Text style={styles.cardFontName}>Attacks</Text>
+            <View style={styles.attacksView}>
+              {currentCard.attacks.map(attack => {
+                return (
+                  <View key={currentCard.id}>
+                    <Text style={styles.cardAttacks}>{attack.name}</Text>
+                    <Text style={styles.cardAttacks}>
+                      Dmg: {attack.damage} || Cost: {attack.mpCost}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
             <Text style={styles.cardFontDescrip}>
               {currentCard.description}
             </Text>

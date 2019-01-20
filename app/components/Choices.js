@@ -35,7 +35,7 @@ export default class Choices extends Component {
         <TouchableOpacity onPress={() => navigator.push("Your Cards")}>
           <Text style={styles.button}>Your Cards</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigator.pop()}>
+        <TouchableOpacity onPress={() => navigator.push("Play")}>
           <Text style={styles.button}>Play Game</Text>
         </TouchableOpacity>
       </View>

@@ -42,7 +42,7 @@ class AllCards extends React.Component {
     navigator.push("Card Details");
   }
   renderHeader = () => {
-    return <Text style={styles.bodyText}>Your Cards</Text>;
+    return <Text style={styles.bodyText}>Your Cards:</Text>;
   };
   _renderItem = ({ item }) => (
     <TouchableOpacity

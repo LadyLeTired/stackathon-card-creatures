@@ -54,9 +54,19 @@ class SingleCard extends React.Component {
           style={styles.cardPic}
         />
         <Text style={styles.cardFontStats}>
-          HP: {card.hp} || MP: {card.mp}
+          HP!! {card.hp} || MP: {card.mp}
         </Text>
         <Text style={styles.cardFontName}>{card.creatureName}</Text>
+        {card.attacks.map(attack => {
+          return (
+            <View key={card.id} style={{ alignItems: "center" }}>
+              <Text style={styles.cardAttacks}>{attack.name}</Text>
+              <Text style={styles.cardAttacks}>
+                Dmg: {attack.damage} || Cost: {attack.mpCost}
+              </Text>
+            </View>
+          );
+        })}
       </View>
     );
   }

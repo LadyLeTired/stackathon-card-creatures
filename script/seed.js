@@ -1,9 +1,9 @@
 "use strict";
 
 const db = require("../server/db");
-const { Card } = require("../server/db/models");
+const { Card, Attack } = require("../server/db/models");
 
-const cards = [
+const cardData = [
   {
     creatureImageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
@@ -86,18 +86,47 @@ const cards = [
     description: "Some description"
   }
 ];
+const attackData = [
+  {
+    name: "Fireball",
+    mpCost: 2,
+    element: "Fire",
+    damage: 4,
+    description: "Blast of fire"
+  },
+  {
+    name: "Icebeam",
+    mpCost: 2,
+    element: "Ice",
+    damage: 4,
+    description: "Beam of Ice"
+  },
+  {
+    name: "Gust",
+    mpCost: 2,
+    element: "Earth",
+    damage: 4,
+    description: "Strong gust of wind"
+  }
+];
 
 async function seed() {
   await db.sync({ force: true });
   console.log("db synced!");
 
+  const [cards, attacks] = await Promise.all([
+    Card.bulkCreate(cardData, { returning: true }),
+    Attack.bulkCreate(attackData, { returning: true })
+  ]);
+
   await Promise.all(
     cards.map(card => {
-      return Card.create(card);
+      return card.addAttack(attacks[Math.floor(Math.random() * 3)]);
     })
   );
 
   console.log(`seeded ${cards.length} cards`);
+  console.log(`seeded ${attacks.length} attacks`);
   console.log(`seeded successfully`);
 }
 

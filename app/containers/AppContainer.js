@@ -43,7 +43,7 @@ class CardCreatures extends Component {
     const { navigator } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.bodyText}>Card Creatures!</Text>
+        <Text style={styles.bodyText}>Card Creatures!!</Text>
         <TouchableOpacity onPress={() => navigator.push("Choices")}>
           <Text style={styles.button}>Start Game</Text>
         </TouchableOpacity>
