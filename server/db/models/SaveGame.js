@@ -3,7 +3,8 @@ const db = require("../db");
 
 const SaveGame = db.define("savegame", {
   playerName: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   }
 });
 
