@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
 //GET /api/cards/:id
 router.get("/:id", async (req, res, next) => {
   try {
-    const selectedCard = await Card.findById(req.params.id, {
+    const selectedCard = await Card.findByPk(req.params.id, {
       include: [{ model: Attack }]
     });
     res.json(selectedCard);
