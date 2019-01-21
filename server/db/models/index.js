@@ -1,5 +1,7 @@
 const Card = require("./Card.js");
 const Attack = require("./Attack");
+const Enemy = require("./Enemy");
+const SaveGame = require("./SaveGame");
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -11,6 +13,8 @@ const Attack = require("./Attack");
 Card.belongsToMany(Attack, { through: "creatureAttacks" });
 Attack.belongsToMany(Card, { through: "creatureAttacks" });
 
+Card.belongsToMany(SaveGame, { through: "playerGames" });
+SaveGame.belongsToMany(Card, { through: "playerGames" });
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -19,5 +23,7 @@ Attack.belongsToMany(Card, { through: "creatureAttacks" });
  */
 module.exports = {
   Card,
-  Attack
+  Attack,
+  Enemy,
+  SaveGame
 };

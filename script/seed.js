@@ -1,86 +1,86 @@
 "use strict";
 
 const db = require("../server/db");
-const { Card, Attack } = require("../server/db/models");
+const { Card, Attack, Enemy, SaveGame } = require("../server/db/models");
 
 const cardData = [
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature1",
-    creatureType: "Ice",
+    name: "Test Creature1",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature2",
-    creatureType: "Ice",
+    name: "Test Creature2",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature3",
-    creatureType: "Ice",
+    name: "Test Creature3",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature4",
-    creatureType: "Ice",
+    name: "Test Creature4",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature5",
-    creatureType: "Ice",
+    name: "Test Creature5",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature6",
-    creatureType: "Ice",
+    name: "Test Creature6",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature7",
-    creatureType: "Ice",
+    name: "Test Creature7",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature8",
-    creatureType: "Ice",
+    name: "Test Creature8",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
   },
   {
-    creatureImageUrl:
+    imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    creatureName: "Test Creature9",
-    creatureType: "Ice",
+    name: "Test Creature9",
+    type: "Ice",
     hp: 10,
     mp: 10,
     description: "Some description"
@@ -110,13 +110,68 @@ const attackData = [
   }
 ];
 
+const enemyData = [
+  {
+    imageUrl: "https://i.imgur.com/tTCUtxH.jpg",
+    name: "The Tusked Dawn Dragon",
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "A big ol' dragon"
+  },
+  {
+    imageUrl: "https://i.imgur.com/6zuvftm.jpg",
+    name: "Gravewraith",
+    type: "Fire",
+    hp: 8,
+    mp: 2,
+    description: "Doggo, probably"
+  },
+  {
+    imageUrl: "https://i.imgur.com/QN2FJs6.png",
+    name: "Gutwing Army",
+    type: "Fire",
+    hp: 14,
+    mp: 8,
+    description: "Some spooky doods"
+  },
+  {
+    imageUrl: "https://i.imgur.com/PSTySPN.png",
+    name: "Slagpest",
+    type: "Fire",
+    hp: 18,
+    mp: 22,
+    description: "Birdy"
+  },
+  {
+    imageUrl: "https://i.imgur.com/O09MC2g.png",
+    name: "Umbraflayer",
+    type: "Fire",
+    hp: 12,
+    mp: 15,
+    description: "Old dood"
+  },
+  {
+    imageUrl: "https://i.imgur.com/URSiUPr.jpg",
+    name: "The Rotten Mumbler",
+    type: "Earth",
+    hp: 13,
+    mp: 7,
+    description: "Octo-Witch-Doc"
+  }
+];
+
+const saveData = [{ playerName: "Amber" }];
+
 async function seed() {
   await db.sync({ force: true });
   console.log("db synced!");
 
-  const [cards, attacks] = await Promise.all([
+  const [cards, attacks, enemies, saves] = await Promise.all([
     Card.bulkCreate(cardData, { returning: true }),
-    Attack.bulkCreate(attackData, { returning: true })
+    Attack.bulkCreate(attackData, { returning: true }),
+    Enemy.bulkCreate(enemyData, { returning: true }),
+    SaveGame.bulkCreate(saveData, { returning: true })
   ]);
 
   await Promise.all(
@@ -125,8 +180,12 @@ async function seed() {
     })
   );
 
+  await saves[0].addCards(cards);
+
   console.log(`seeded ${cards.length} cards`);
   console.log(`seeded ${attacks.length} attacks`);
+  console.log(`seeded ${attacks.length} attacks`);
+  console.log(`seeded ${enemies.length} enemies`);
   console.log(`seeded successfully`);
 }
 

@@ -6,10 +6,19 @@ import {
   TouchableOpacity,
   Button,
   Image,
-  FlatList
+  FlatList,
+  Dimensions,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
-import { fetchAllCards, fetchSingleCard } from "../reducers";
+import {
+  fetchAllEnemies,
+  fetchSingleEnemy,
+  fetchAllCards,
+  fetchSingleCard,
+  enterBattle,
+  exitBattle
+} from "../reducers";
 import SingleCard from "./SingleCard";
 
 const styles = StyleSheet.create({
@@ -21,7 +30,8 @@ const styles = StyleSheet.create({
   },
   foeArea: {
     flex: 1,
-    // backgroundColor: "maroon",
+    // height: 400,
+    // width: 200,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -41,12 +51,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 20,
     margin: 10
+  },
+  foeImage: {
+    // width: Dimensions.get("window").width * 0.75
+    width: 300,
+    height: 200
   }
 });
 
-class Choices extends Component {
-  componentDidMount() {
-    this.props.fetchAllCards();
+class Play extends Component {
+  async componentDidMount() {
+    await this.props.fetchAllCards();
+    await this.props.fetchAllEnemies();
+
+    let allEnemiesCount = this.props.allEnemies.length;
+    let randomEnemyNum = Math.floor(Math.random() * allEnemiesCount + 1);
+    const randomEnemyId = this.props.allEnemies[randomEnemyNum].id;
+    this.props.fetchSingleEnemy(randomEnemyId);
   }
   _renderItem = ({ item }) => (
     <TouchableOpacity
@@ -54,7 +75,7 @@ class Choices extends Component {
         this.handlePress(item);
       }}
     >
-      <SingleCard key={item.id} card={item} />
+      <SingleCard card={item} />
     </TouchableOpacity>
   );
   async handlePress(card) {
@@ -62,15 +83,67 @@ class Choices extends Component {
     await this.props.fetchSingleCard(card.id);
     navigator.push("Card Details");
   }
-  render() {
-    console.log("CHOICES PROPS--->", this.props);
+
+  handleExit() {
     const { navigator } = this.props;
+    Alert.alert(
+      "Are you sure you want to exit!?",
+      "One of your cards will be forfeited at random!",
+      [
+        {
+          text: "Forfeit",
+          onPress: () => {
+            this.props.exitBattle();
+            navigator.pop();
+          }
+        },
+        {
+          text: "Continue Battle",
+          onPress: () => console.log("Battle continues"),
+          style: "cancel"
+        }
+      ]
+    );
+  }
+
+  render() {
+    this.props.enterBattle();
+    const { navigator, currentEnemy, exitBattle } = this.props;
+
+    if (this.props.allEnemies.length === 0) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.bodyText}>Loading Enemy!!</Text>
+        </View>
+      );
+    }
+
+    if (this.props.currentEnemy && this.props.currentEnemy.isDefeated) {
+      exitBattle();
+      return (
+        <View style={styles.container}>
+          <Text style={styles.bodyText}>Congrats, you won!</Text>
+          <Button
+            onPress={() => navigator.pop()}
+            title="Main Menu"
+            color="#EF7126"
+          />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <View style={styles.foeArea}>
-          <Text style={styles.bodyText}>Your Foe!</Text>
-          <Image source={require("../../assets/creatures/sf_036.png")} />
-          <Text style={styles.bodyText}>HP: 20 || MP: 20</Text>
+          <Text style={styles.bodyText}>Your Foe:</Text>
+
+          <Text style={styles.bodyText}>{currentEnemy.name}</Text>
+          <Image
+            source={{ uri: currentEnemy.imageUrl }}
+            style={styles.foeImage}
+          />
+          <Text style={styles.bodyText}>
+            HP: {currentEnemy.hp} || MP: {currentEnemy.mp}
+          </Text>
         </View>
         <View style={styles.cardArea}>
           <Text style={styles.bodyText}>Your Cards</Text>
@@ -78,11 +151,15 @@ class Choices extends Component {
             horizontal={true}
             data={this.props.allCards}
             renderItem={this._renderItem}
-            keyExtractor={item => item.creatureName}
+            keyExtractor={item => String(item.id)}
           />
         </View>
 
-        <Button onPress={() => navigator.pop()} title="Back" color="#EF7126" />
+        <Button
+          onPress={() => this.handleExit()}
+          title="Quit"
+          color="#EF7126"
+        />
       </View>
     );
   }
@@ -90,14 +167,20 @@ class Choices extends Component {
 
 const mapState = state => ({
   allCards: state.cardReducer.allCards,
-  currentCard: state.cardReducer.currentCard
+  allEnemies: state.enemyReducer.allEnemies,
+  currentEnemy: state.enemyReducer.currentEnemy,
+  inBattle: state.enemyReducer.inBattle
 });
 const mapDispatch = dispatch => ({
   fetchAllCards: () => dispatch(fetchAllCards()),
-  fetchSingleCard: id => dispatch(fetchSingleCard(id))
+  fetchSingleCard: id => dispatch(fetchSingleCard(id)),
+  fetchAllEnemies: () => dispatch(fetchAllEnemies()),
+  fetchSingleEnemy: id => dispatch(fetchSingleEnemy(id)),
+  enterBattle: () => dispatch(enterBattle()),
+  exitBattle: () => dispatch(exitBattle())
 });
 
 export default connect(
   mapState,
   mapDispatch
-)(Choices);
+)(Play);

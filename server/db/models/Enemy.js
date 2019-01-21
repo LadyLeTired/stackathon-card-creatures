@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
 
-const Card = db.define("card", {
+const Enemy = db.define("enemy", {
   imageUrl: {
     type: Sequelize.STRING
   },
@@ -17,9 +17,10 @@ const Card = db.define("card", {
   mp: {
     type: Sequelize.INTEGER
   },
-  description: {
-    type: Sequelize.TEXT
+  isDefeated: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 });
 
-module.exports = Card;
+module.exports = Enemy;

@@ -5,10 +5,16 @@ import {
   View,
   Image,
   Dimensions,
-  Button
+  Button,
+  TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
-import { fetchSingleCard } from "../reducers";
+import {
+  fetchSingleCard,
+  enterBattle,
+  inBattle,
+  damageEnemy
+} from "../reducers";
 
 const styles = StyleSheet.create({
   container: {
@@ -75,6 +81,25 @@ const styles = StyleSheet.create({
 });
 
 class CardDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlePress = this.handlePress.bind(this);
+  }
+
+  handlePress() {
+    const { navigator, currentCard } = this.props;
+    const damage = currentCard.attacks[0].damage;
+    if (this.props.inBattle) {
+      this.props.damageEnemy(damage);
+      console.log(`${damage} damage done to ${this.props.currentEnemy.name}`);
+    } else {
+      console.log(
+        this.props.currentCard.name,
+        "IS **NOT** CURRENTLY IN BATTLE"
+      );
+    }
+    navigator.pop();
+  }
   render() {
     const { navigator, currentCard } = this.props;
     return (
@@ -82,7 +107,7 @@ class CardDetails extends React.Component {
         <View style={styles.fullViewCard}>
           <View style={styles.cardMedia}>
             <Image
-              source={{ uri: `${currentCard.creatureImageUrl}` }}
+              source={{ uri: `${currentCard.imageUrl}` }}
               style={styles.cardPic}
             />
           </View>
@@ -95,12 +120,17 @@ class CardDetails extends React.Component {
             <View style={styles.attacksView}>
               {currentCard.attacks.map(attack => {
                 return (
-                  <View key={currentCard.id}>
-                    <Text style={styles.cardAttacks}>{attack.name}</Text>
-                    <Text style={styles.cardAttacks}>
-                      Dmg: {attack.damage} || Cost: {attack.mpCost}
-                    </Text>
-                  </View>
+                  <TouchableOpacity
+                    key={currentCard.id}
+                    onPress={this.handlePress}
+                  >
+                    <View>
+                      <Text style={styles.cardAttacks}>{attack.name}</Text>
+                      <Text style={styles.cardAttacks}>
+                        Dmg: {attack.damage} || Cost: {attack.mpCost}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 );
               })}
             </View>
@@ -120,10 +150,14 @@ class CardDetails extends React.Component {
 }
 
 const mapState = state => ({
-  currentCard: state.cardReducer.currentCard
+  currentCard: state.cardReducer.currentCard,
+  inBattle: state.enemyReducer.inBattle,
+  currentEnemy: state.enemyReducer.currentEnemy
 });
 const mapDispatch = dispatch => ({
-  fetchSingleCard: id => dispatch(fetchSingleCard(id))
+  fetchSingleCard: id => dispatch(fetchSingleCard(id)),
+  enterBattle: () => dispatch(enterBattle()),
+  damageEnemy: dmg => dispatch(damageEnemy(dmg))
 });
 
 export default connect(

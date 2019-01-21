@@ -49,12 +49,9 @@ class SingleCard extends React.Component {
 
     return (
       <View style={styles.card}>
-        <Image
-          source={{ uri: `${card.creatureImageUrl}` }}
-          style={styles.cardPic}
-        />
+        <Image source={{ uri: `${card.imageUrl}` }} style={styles.cardPic} />
         <Text style={styles.cardFontStats}>
-          HP!! {card.hp} || MP: {card.mp}
+          HP: {card.hp} || MP: {card.mp}
         </Text>
         <Text style={styles.cardFontName}>{card.creatureName}</Text>
         {card.attacks.map(attack => {

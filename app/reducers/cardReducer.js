@@ -1,5 +1,5 @@
 import axios from "axios";
-const currentIp = "192.168.1.7";
+import { currentIp } from "./index";
 
 //action types
 export const ADD_CARD = "ADD_CARD";

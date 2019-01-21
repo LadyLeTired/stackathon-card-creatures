@@ -50,7 +50,7 @@ class AllCards extends React.Component {
         this.handlePress(item);
       }}
     >
-      <SingleCard key={item.id} card={item} />
+      <SingleCard card={item} />
     </TouchableOpacity>
   );
   render() {
@@ -64,7 +64,7 @@ class AllCards extends React.Component {
           numColumns={2}
           data={this.props.allCards}
           renderItem={this._renderItem}
-          keyExtractor={item => item.creatureName}
+          keyExtractor={item => String(item.id)}
           ListHeaderComponent={this.renderHeader}
         />
         <Button onPress={() => navigator.pop()} title="Back" color="#EF7126" />

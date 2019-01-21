@@ -40,8 +40,8 @@ export default class App extends React.Component {
       return (
         <Provider store={store}>
           <Navigator>
-            {/* <Route name="Home" component={AppContainer} /> */}
-            <Route name="Home" component={Play} />
+            <Route name="Home" component={AppContainer} />
+            {/* <Route name="Home" component={Play} /> */}
             <Route name="Choices" component={Choices} />
             <Route name="Your Cards" component={AllCards} />
             <Route name="Card Details" component={CardDetails} />
