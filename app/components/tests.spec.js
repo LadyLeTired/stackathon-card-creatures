@@ -1,30 +1,29 @@
-import { expect } from "chai";
+import React, { View, Text, StyleSheet } from "react-native";
 import { shallow } from "enzyme";
-import React from "react";
-import sinon from "sinon";
-import { AllCards, SingleCard } from "../components/";
-import { cardData } from "../../script/seed";
+import { expect } from "chai";
+import proxyquire from "proxyquire";
+import { spy } from "sinon";
 
-describe.only("AllCards Component", () => {
-  let wrapper;
-  let listAll = sinon.spy();
-  beforeEach("set up wrapper", () => {
-    wrapper = shallow(<SingleCard card={cardData[0]} listAll={listAll} />);
-  });
+// This ensures that proxyquire won't run the file before we
+// mock its imports.
+const proxyquireStrict = proxyquire.noCallThru();
+const Meteor = {
+  loginWithPassword: null
+};
+const Router = {
+  Actions: {
+    dashboard: null
+  }
+};
 
-  it("displays the card's name, hp/mp, and attacks", () => {
-    // const img = wrapper.find("Image");
-    // expect(img.html()).to.include(puppy.image);
-    const text = wrapper.text();
-    expect(text).to.include(card.hp);
-    expect(text).to.include(card.mp);
-  });
+const AllCards = proxyquireStrict("./AllCards.js", {
+  "react-native-meteor": Meteor,
+  "react-native-router-flux": Router
+  // No need to mock RN, react-native-mock already did that
+  // for us ;)
+});
 
-  xit("invokes `pickPuppy` with the correct ID when puppy is clicked", () => {
-    puppies.forEach(puppy => {
-      const matchingDiv = divs.filterWhere(div => div.text() === puppy.name);
-      matchingDiv.simulate("click");
-      expect(pickPuppy.calledWith(puppy.id)).to.be.true;
-    });
-  });
+describe("<AllCards />", () => {
+  const allCards = "TODO";
+  it("Should render a view", () => {});
 });
