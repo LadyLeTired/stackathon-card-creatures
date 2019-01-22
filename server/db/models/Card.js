@@ -19,6 +19,10 @@ const Card = db.define("card", {
   },
   description: {
     type: Sequelize.TEXT
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 3
   }
 });
 

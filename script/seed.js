@@ -3,11 +3,81 @@
 const db = require("../server/db");
 const { Card, Attack, Enemy, SaveGame } = require("../server/db/models");
 
+const nameGenerator = [
+  "Hollow Leviathan",
+  "Rosewood Griffin",
+  "Superior Anomalies",
+  "Brass Satyrs",
+  "Hollow Beast",
+  "Matriarch Incubi",
+  "Jester Halflings",
+  "Roaming Wispmother",
+  "Sunray Hag",
+  "Jasmine Fairies",
+  "Banded Goblins",
+  "Den Hobgoblins"
+];
+
 const cardData = [
   {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature1",
+    imageUrl: "https://i.imgur.com/epzIWTa.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    imageUrl: "https://i.imgur.com/4Q9jwwD.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    imageUrl: "https://i.imgur.com/IlL1ZXi.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    imageUrl: "https://i.imgur.com/NTJ46cU.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    imageUrl: "https://i.imgur.com/DzmhHSF.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    imageUrl: "https://i.imgur.com/seWHPnj.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    imageUrl: "https://i.imgur.com/fzg9G3n.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
+    type: "Ice",
+    hp: 10,
+    mp: 10,
+    description: "Some description"
+  },
+  {
+    imageUrl: "https://i.imgur.com/3XzjCYC.jpg",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
     type: "Ice",
     hp: 10,
     mp: 10,
@@ -16,70 +86,7 @@ const cardData = [
   {
     imageUrl:
       "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature2",
-    type: "Ice",
-    hp: 10,
-    mp: 10,
-    description: "Some description"
-  },
-  {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature3",
-    type: "Ice",
-    hp: 10,
-    mp: 10,
-    description: "Some description"
-  },
-  {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature4",
-    type: "Ice",
-    hp: 10,
-    mp: 10,
-    description: "Some description"
-  },
-  {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature5",
-    type: "Ice",
-    hp: 10,
-    mp: 10,
-    description: "Some description"
-  },
-  {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature6",
-    type: "Ice",
-    hp: 10,
-    mp: 10,
-    description: "Some description"
-  },
-  {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature7",
-    type: "Ice",
-    hp: 10,
-    mp: 10,
-    description: "Some description"
-  },
-  {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature8",
-    type: "Ice",
-    hp: 10,
-    mp: 10,
-    description: "Some description"
-  },
-  {
-    imageUrl:
-      "http://2.bp.blogspot.com/-5jg2YKt4eak/U3VMJLOvbTI/AAAAAAAABIQ/FsRnYKFp2UM/s1600/maleficent536ad1e43b29a.jpg",
-    name: "Test Creature9",
+    name: nameGenerator[Math.floor(Math.random() * nameGenerator.length)],
     type: "Ice",
     hp: 10,
     mp: 10,

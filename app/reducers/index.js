@@ -1,4 +1,4 @@
-const currentIp = "192.168.1.7";
+const currentIp = "192.168.1.4";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
@@ -6,7 +6,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import cardReducer, {
   fetchAllCards,
   addCard,
-  fetchSingleCard
+  addCardToHand,
+  fetchCardToHand,
+  fetchSingleCard,
+  viewCardsInHand,
+  updateCardCount
 } from "./cardReducer";
 import enemyReducer, {
   fetchAllEnemies,
@@ -15,8 +19,9 @@ import enemyReducer, {
   exitBattle,
   damageEnemy
 } from "./enemyReducer";
+import gameReducer, { changePhase } from "./gameReducer";
 
-const reducer = combineReducers({ cardReducer, enemyReducer });
+const reducer = combineReducers({ cardReducer, enemyReducer, gameReducer });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
@@ -33,5 +38,10 @@ export {
   currentIp,
   enterBattle,
   exitBattle,
-  damageEnemy
+  damageEnemy,
+  changePhase,
+  viewCardsInHand,
+  addCardToHand,
+  fetchCardToHand,
+  updateCardCount
 };

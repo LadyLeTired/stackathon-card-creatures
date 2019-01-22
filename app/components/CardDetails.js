@@ -6,14 +6,18 @@ import {
   Image,
   Dimensions,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 import {
   fetchSingleCard,
   enterBattle,
   inBattle,
-  damageEnemy
+  damageEnemy,
+  addCardToHand,
+  fetchCardToHand,
+  updateCardCount
 } from "../reducers";
 
 const styles = StyleSheet.create({
@@ -83,15 +87,15 @@ const styles = StyleSheet.create({
 class CardDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.handlePress = this.handlePress.bind(this);
-  }
 
-  handlePress() {
+    this.handleAttackPress = this.handleAttackPress.bind(this);
+    this.handleAddToHandPress = this.handleAddToHandPress.bind(this);
+  }
+  handleAttackPress() {
     const { navigator, currentCard } = this.props;
     const damage = currentCard.attacks[0].damage;
     if (this.props.inBattle) {
       this.props.damageEnemy(damage);
-      console.log(`${damage} damage done to ${this.props.currentEnemy.name}`);
     } else {
       console.log(
         this.props.currentCard.name,
@@ -100,8 +104,17 @@ class CardDetails extends React.Component {
     }
     navigator.pop();
   }
+
+  async handleAddToHandPress(card) {
+    const { navigator, updateCardCount } = this.props;
+    await updateCardCount(card);
+    Alert.alert("You have added this card to your hand", "Good luck!", [
+      { text: "Add more cards", onPress: () => navigator.pop() },
+      { text: "Enter Battle!", onPress: () => navigator.push("Play") }
+    ]);
+  }
   render() {
-    const { navigator, currentCard } = this.props;
+    const { navigator, currentCard, inBattle } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.fullViewCard}>
@@ -116,13 +129,13 @@ class CardDetails extends React.Component {
             <Text style={styles.cardFontDescrip}>
               HP: {currentCard.hp} || MP: {currentCard.mp}
             </Text>
-            <Text style={styles.cardFontName}>Attacks</Text>
+            <Text style={styles.cardFontName}>{currentCard.name}</Text>
             <View style={styles.attacksView}>
               {currentCard.attacks.map(attack => {
                 return (
                   <TouchableOpacity
-                    key={currentCard.id}
-                    onPress={this.handlePress}
+                    key={currentCard.name}
+                    onPress={this.handleAttackPress}
                   >
                     <View>
                       <Text style={styles.cardAttacks}>{attack.name}</Text>
@@ -137,7 +150,20 @@ class CardDetails extends React.Component {
             <Text style={styles.cardFontDescrip}>
               {currentCard.description}
             </Text>
+            {!inBattle ? (
+              <View>
+                <Button
+                  onPress={() => this.handleAddToHandPress(currentCard)}
+                  title="Add Card Hand"
+                  color="#EF7126"
+                />
+                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                  (Copies: {currentCard.quantity})
+                </Text>
+              </View>
+            ) : null}
           </View>
+
           <Button
             onPress={() => navigator.pop()}
             title="Back"
@@ -152,12 +178,15 @@ class CardDetails extends React.Component {
 const mapState = state => ({
   currentCard: state.cardReducer.currentCard,
   inBattle: state.enemyReducer.inBattle,
-  currentEnemy: state.enemyReducer.currentEnemy
+  currentEnemy: state.enemyReducer.currentEnemy,
+  playerHand: state.cardReducer.playerHand
 });
 const mapDispatch = dispatch => ({
   fetchSingleCard: id => dispatch(fetchSingleCard(id)),
   enterBattle: () => dispatch(enterBattle()),
-  damageEnemy: dmg => dispatch(damageEnemy(dmg))
+  damageEnemy: dmg => dispatch(damageEnemy(dmg)),
+  addCardToHand: card => dispatch(addCardToHand(card)),
+  updateCardCount: card => dispatch(updateCardCount(card))
 });
 
 export default connect(

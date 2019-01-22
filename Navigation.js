@@ -78,6 +78,25 @@ export class Navigator extends Component {
       });
     });
   };
+  handleRestart = () => {
+    Animated.timing(this._animatedValue, {
+      toValue: width,
+      duration: 250,
+      useNativeDriver: true
+    }).start(() => {
+      this._animatedValue.setValue(0);
+      this.setState(state => {
+        const { stack } = state;
+        if (stack.length > 1) {
+          return {
+            stack: stack.slice(0, 1)
+          };
+        }
+
+        return state;
+      });
+    });
+  };
 
   _animatedValue = new Animated.Value(0);
 
@@ -100,7 +119,11 @@ export class Navigator extends Component {
           return (
             <Animated.View key={scene.key} style={sceneStyles}>
               <CurrentScene
-                navigator={{ push: this.handlePush, pop: this.handlePop }}
+                navigator={{
+                  push: this.handlePush,
+                  pop: this.handlePop,
+                  restart: this.handleRestart
+                }}
               />
             </Animated.View>
           );

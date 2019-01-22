@@ -17,7 +17,8 @@ import {
   fetchAllCards,
   fetchSingleCard,
   enterBattle,
-  exitBattle
+  exitBattle,
+  changePhase
 } from "../reducers";
 import SingleCard from "./SingleCard";
 
@@ -65,10 +66,15 @@ class Play extends Component {
     await this.props.fetchAllEnemies();
 
     let allEnemiesCount = this.props.allEnemies.length;
-    let randomEnemyNum = Math.floor(Math.random() * allEnemiesCount + 1);
+    let randomEnemyNum = Math.floor(Math.random() * allEnemiesCount);
     const randomEnemyId = this.props.allEnemies[randomEnemyNum].id;
-    this.props.fetchSingleEnemy(randomEnemyId);
+    await this.props.fetchSingleEnemy(randomEnemyId);
+
+    if (this.props.playerHand.length > 0) {
+      await this.props.enterBattle();
+    }
   }
+
   _renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
@@ -106,10 +112,14 @@ class Play extends Component {
     );
   }
 
-  render() {
-    this.props.enterBattle();
-    const { navigator, currentEnemy, exitBattle } = this.props;
+  async handleVictory() {
+    const { navigator, exitBattle } = this.props;
+    await exitBattle();
+    navigator.restart();
+  }
 
+  render() {
+    const { navigator, currentEnemy, exitBattle, playerHand } = this.props;
     if (this.props.allEnemies.length === 0) {
       return (
         <View style={styles.container}>
@@ -118,13 +128,24 @@ class Play extends Component {
       );
     }
 
+    if (playerHand.length === 0) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.bodyText}>You have no cards in hand</Text>
+          <Button
+            onPress={() => navigator.pop()}
+            title="Back to Main Menu"
+            color="#EF7126"
+          />
+        </View>
+      );
+    }
     if (this.props.currentEnemy && this.props.currentEnemy.isDefeated) {
-      exitBattle();
       return (
         <View style={styles.container}>
           <Text style={styles.bodyText}>Congrats, you won!</Text>
           <Button
-            onPress={() => navigator.pop()}
+            onPress={() => this.handleVictory()}
             title="Main Menu"
             color="#EF7126"
           />
@@ -149,9 +170,9 @@ class Play extends Component {
           <Text style={styles.bodyText}>Your Cards</Text>
           <FlatList
             horizontal={true}
-            data={this.props.allCards}
+            data={this.props.playerHand}
             renderItem={this._renderItem}
-            keyExtractor={item => String(item.id)}
+            keyExtractor={item => item.name}
           />
         </View>
 
@@ -169,7 +190,8 @@ const mapState = state => ({
   allCards: state.cardReducer.allCards,
   allEnemies: state.enemyReducer.allEnemies,
   currentEnemy: state.enemyReducer.currentEnemy,
-  inBattle: state.enemyReducer.inBattle
+  inBattle: state.enemyReducer.inBattle,
+  playerHand: state.cardReducer.playerHand
 });
 const mapDispatch = dispatch => ({
   fetchAllCards: () => dispatch(fetchAllCards()),

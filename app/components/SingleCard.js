@@ -50,6 +50,7 @@ class SingleCard extends React.Component {
     return (
       <View style={styles.card}>
         <Image source={{ uri: `${card.imageUrl}` }} style={styles.cardPic} />
+        <Text style={styles.cardFontStats}>{card.name}</Text>
         <Text style={styles.cardFontStats}>
           HP: {card.hp} || MP: {card.mp}
         </Text>

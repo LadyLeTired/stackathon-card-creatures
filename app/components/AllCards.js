@@ -56,7 +56,7 @@ class AllCards extends React.Component {
   render() {
     const { navigator } = this.props;
     if (this.props.allCards.length === 0) {
-      return <Text>Nothing..</Text>;
+      return <Text>You have no cards..</Text>;
     }
     return (
       <View style={styles.container}>
@@ -64,7 +64,7 @@ class AllCards extends React.Component {
           numColumns={2}
           data={this.props.allCards}
           renderItem={this._renderItem}
-          keyExtractor={item => String(item.id)}
+          keyExtractor={item => item.name}
           ListHeaderComponent={this.renderHeader}
         />
         <Button onPress={() => navigator.pop()} title="Back" color="#EF7126" />
