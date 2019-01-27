@@ -178,7 +178,7 @@ describe("Express Routes", () => {
         .get("/api/cards")
         .expect(200);
       expect(res.body).to.be.an("array");
-      expect(res.body[0].name).to.be.equal("Test Creature1");
+      expect(res.body.length).to.be.equal(testData.cardData.length);
     });
 
     it("GET /api/cards/:id - returns a particular card by ID", async () => {

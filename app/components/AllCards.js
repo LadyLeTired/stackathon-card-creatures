@@ -12,7 +12,6 @@ import { connect } from "react-redux";
 import SingleCard from "./SingleCard";
 
 import { fetchAllCards, fetchSingleCard } from "../reducers";
-import { ScrollView } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   container: {

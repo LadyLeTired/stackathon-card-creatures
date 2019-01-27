@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class CardDetails extends React.Component {
+export class CardDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -131,7 +131,7 @@ class CardDetails extends React.Component {
             </Text>
             <Text style={styles.cardFontName}>{currentCard.name}</Text>
             <View style={styles.attacksView}>
-              {currentCard.attacks.map(attack => {
+              {/* {currentCard.attacks.map(attack => {
                 return (
                   <TouchableOpacity
                     key={currentCard.name}
@@ -145,7 +145,7 @@ class CardDetails extends React.Component {
                     </View>
                   </TouchableOpacity>
                 );
-              })}
+              })} */}
             </View>
             <Text style={styles.cardFontDescrip}>
               {currentCard.description}

@@ -1,14 +1,31 @@
 {
-  "presets": [
-    "react",
-    "stage-3",
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-async-to-generator",
     [
-      "env",
+      "@babel/plugin-proposal-decorators",
       {
-        "targets": {
-          "browsers": ["last 2 Chrome versions"]
-        }
+        "legacy": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": false
       }
     ]
-  ]
+  ],
+  "presets": ["@babel/react", "@babel/env", "babel-preset-expo"]
+  // [
+  //   "react",
+  //   "stage-3",
+  //   [
+  //     "env",
+  //     {
+  //       "targets": {
+  //         "browsers": ["last 2 Chrome versions"]
+  //       }
+  //     }
+  //   ]
+  // ]
 }
