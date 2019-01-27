@@ -154,10 +154,10 @@ class CardDetails extends React.Component {
               <View>
                 <Button
                   onPress={() => this.handleAddToHandPress(currentCard)}
-                  title="Add Card Hand"
+                  title="Add Card to Hand"
                   color="#EF7126"
                 />
-                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                <Text style={{ alignItems: "center" }}>
                   (Copies: {currentCard.quantity})
                 </Text>
               </View>

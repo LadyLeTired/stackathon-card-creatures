@@ -62,16 +62,24 @@ const styles = StyleSheet.create({
 
 class Play extends Component {
   async componentDidMount() {
-    await this.props.fetchAllCards();
-    await this.props.fetchAllEnemies();
+    const {
+      playerHand,
+      allEnemies,
+      fetchAllCards,
+      fetchAllEnemies,
+      fetchSingleEnemy,
+      enterBattle
+    } = this.props;
+    await fetchAllCards();
+    await fetchAllEnemies();
 
-    let allEnemiesCount = this.props.allEnemies.length;
+    let allEnemiesCount = allEnemies.length;
     let randomEnemyNum = Math.floor(Math.random() * allEnemiesCount);
     const randomEnemyId = this.props.allEnemies[randomEnemyNum].id;
-    await this.props.fetchSingleEnemy(randomEnemyId);
+    await fetchSingleEnemy(randomEnemyId);
 
-    if (this.props.playerHand.length > 0) {
-      await this.props.enterBattle();
+    if (playerHand.length > 0) {
+      await enterBattle();
     }
   }
 
@@ -131,7 +139,7 @@ class Play extends Component {
     if (playerHand.length === 0) {
       return (
         <View style={styles.container}>
-          <Text style={styles.bodyText}>You have no cards in hand</Text>
+          <Text style={styles.bodyText}>You have no cards in hand.</Text>
           <Button
             onPress={() => navigator.pop()}
             title="Back to Main Menu"
