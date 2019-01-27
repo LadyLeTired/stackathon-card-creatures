@@ -30,7 +30,7 @@ router.get("/", async (req, res, next) => {
 //GET /api/enemies/:id
 router.get("/:id", async (req, res, next) => {
   try {
-    const selectedEnemy = await Enemy.findById(req.params.id);
+    const selectedEnemy = await Enemy.findByPk(req.params.id);
     res.json(selectedEnemy);
   } catch (err) {
     next(err);

@@ -12,6 +12,18 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//GET /api/saves/:id
+router.get("/:id", async (req, res, next) => {
+  try {
+    const selectedSave = await SaveGame.findByPk(req.params.id, {
+      include: [{ model: Card }]
+    });
+    res.json(selectedSave);
+  } catch (err) {
+    next(err);
+  }
+});
+
 //POST /api/saves/:playerName
 router.post("/:id", async (req, res, next) => {
   try {
